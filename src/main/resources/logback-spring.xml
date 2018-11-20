@@ -13,11 +13,13 @@
 	<appender name="ASYNC_FILE"
 		class="ch.qos.logback.classic.AsyncAppender">
 		<queueSize>500</queueSize> <!-- Default is 256 -->
-		<discardingThreshold>0</discardingThreshold> <!-- Instruction to drop events once the buffer reaches the max capacity. Default 
-			value is 20%. 20 means drop lower event when has 20% capacity remaining -->
+		<discardingThreshold>0</discardingThreshold> <!-- Instruction to drop events once the buffer reaches the max capacity. 
+			Default value is 20%. 20 means drop lower event when has 20% capacity remaining -->
 		<neverBlock>false</neverBlock><!-- default false. Setting it to true to 
 			cause the Appender not block the application and just drop the messages -->
-
+		<maxFlushTime>1000</maxFlushTime> <!-- The default maximum queue flush time allowed during appender stop. If 
+			the worker takes longer than this time it will exit, discarding any remaining 
+			items in the queue -->
 		<appender-ref ref="FILE" /> <!-- Referring to the default FILE appender(which is a rolling file appender) 
 			references in the base.xml -->
 		<!-- Default file name pattern ${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz -->

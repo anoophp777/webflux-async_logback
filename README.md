@@ -7,6 +7,7 @@ Logging is helpful but can take a toll on the system, especially if there is a l
 Asynchonous logging is far beneficial in such cases. 
 
 Here is a comparison. 
+
 https://blog.takipi.com/how-to-instantly-improve-your-java-logging-with-7-logback-tweaks/
 
 I quote glytching from stackoverflow:
@@ -15,11 +16,11 @@ I quote glytching from stackoverflow:
 
 The AsyncAppender acts as a dispatcher to another appender. It buffers log events and dispatches them to, say, a FileAppender or a ConsoleAppender etc.
 
-###Why use the AsyncAppender?
+### Why use the AsyncAppender?
 
 >The AsyncAppender buffers log events, allowing your application code to move on rather than wait for the logging sub system to complete a write. This can improve your application's responsiveness in cases where the underying appender is slow to respond e.g. a database or a file system which may be prone to contention.
 
-###Why not make it the default behaviour?
+### Why not make it the default behaviour?
 
 >The AsyncAppender cannot write to a file or console or a database or a socket etc. Instead, it just delegates log events to an appender which can do that. Without the underlying appender the AsyncAppender is, effectively, a no-op.
 The buffer of log events sits on your application's heap; this is a potential resource leak. If the buffer builds more quickly than it can be drained then the buffer will consume resources which your application might want to use.
@@ -69,3 +70,4 @@ You will see in the logs:
 	2018-11-19 12:54:41.118 [{X-B3-SpanId=ead6d4e8397e7dd0, X-B3-TraceId=5bf265397a815f2cead6d4e8397e7dd0, X-Span-Export=true, spanExportable=true, spanId=ead6d4e8397e7dd0, traceId=5bf265397a815f2cead6d4e8397e7dd0}] DEBUG ahallim-1ef960 --- [nio-7070-exec-6] a.h.w.RestaurantController               : starting statement
 	2018-11-19 12:54:41.118 [{X-B3-ParentSpanId=ead6d4e8397e7dd0, X-B3-SpanId=521cd352679aee4f, X-B3-TraceId=5bf265397a815f2cead6d4e8397e7dd0, X-Span-Export=true, parentId=ead6d4e8397e7dd0, spanExportable=true, spanId=521cd352679aee4f, traceId=5bf265397a815f2cead6d4e8397e7dd0}] DEBUG ahallim-1ef960 --- [nio-7070-exec-6] a.h.w.RestaurantService                  : inside byPrice MVC
 	
+All this is happening asynchronously. You can put a load on the system and play around with the settings. 
